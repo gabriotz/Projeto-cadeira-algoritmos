@@ -18,4 +18,12 @@ struct personagem {
     vector<item> inventario; 
 };
 
+struct pergunta {
+    string questao;
+    string opcaoA;
+    string opcaoB;
+    string opcaoC;
+    string opcaoD;
+    char resposta;
+};
 #endif 
