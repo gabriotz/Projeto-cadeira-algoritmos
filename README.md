@@ -86,7 +86,7 @@ Em `carregarProgresso`, é usado um **ponteiro para ponteiro (`personagem**`)** 
 
 O sistema de **persistência de dados** permite salvar e carregar o progresso do jogador.
 
-#### 📤 Fluxo de Saída
+#### Fluxo de Saída
 
 A função `salvarProgresso()` usa `ofstream` para criar/sobrescrever um arquivo `.dat`, gravando:
 
