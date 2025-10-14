@@ -116,10 +116,10 @@ permitindo continuar a aventura de onde parou.
 
 ## Grupo
 
-**Daniel Mendonça**
-**Felipe Leite**
-**Gabriel Machado**
-**Matheus Henrique**
-**Matheus Stepple**
+**Daniel Mendonça**  
+**Felipe Leite**  
+**Gabriel Machado**  
+**Matheus Henrique**  
+**Matheus Stepple**  
 Projeto acadêmico da cadeira de **Algoritmos** em C++. 
 Professora: Juscimara Avelino.
