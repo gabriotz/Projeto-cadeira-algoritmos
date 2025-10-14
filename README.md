@@ -116,7 +116,7 @@ permitindo continuar a aventura de onde parou.
 
 ## Grupo
 
-**Daniel Mendonça**  
+**Daniel Ramos**  
 **Felipe Leite**  
 **Gabriel Machado**  
 **Matheus Henrique**  
