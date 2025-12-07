@@ -49,6 +49,8 @@ struct pergunta {
     string opcaoC;
     string opcaoD;
     char resposta;
+
+    vector<int> dadosTeste;
 };
 
 #endif

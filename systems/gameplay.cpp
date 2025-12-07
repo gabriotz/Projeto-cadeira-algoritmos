@@ -1,6 +1,7 @@
 #include "gameplay.h"
 #include "gerenciador_save.h"
 #include "../gameLore/itens.h"
+#include "ordenacao.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -42,6 +43,25 @@ bool fazerPergunta(personagem* jogador, bool modoAjuda) {
     cout << "Sua resposta: ";
     char resposta;
     cin >> resposta;
+
+    // === INÍCIO DA INTEGRAÇÃO ===
+    // Se a pergunta tiver dados de teste, rodamos a visualização da escolha do jogador
+    if (!p.dadosTeste.empty()) {
+        string algoritmoEscolhido = "";
+        char r = toupper(resposta);
+        
+        // Descobre qual nome de algoritmo o jogador escolheu
+        if (r == 'A') algoritmoEscolhido = p.opcaoA;
+        else if (r == 'B') algoritmoEscolhido = p.opcaoB;
+        else if (r == 'C') algoritmoEscolhido = p.opcaoC;
+        else if (r == 'D') algoritmoEscolhido = p.opcaoD;
+
+        // Se ele escolheu algo válido, roda a animação
+        if (!algoritmoEscolhido.empty()) {
+            // Chama a função que criamos no ordenacao.cpp
+            executarVisualizacao(algoritmoEscolhido, p.dadosTeste);
+        }
+    }
 
     if (toupper(resposta) == toupper(p.resposta)) {
         cout << "CORRETO! A ordem foi mantida. Sobrevivemos a mais um dia." << endl;

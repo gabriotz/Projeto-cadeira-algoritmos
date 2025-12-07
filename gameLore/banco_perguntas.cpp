@@ -152,4 +152,53 @@ void carregarPerguntas(std::vector<pergunta>& perguntas) {
     p15.opcaoD = "Lista. Representa apenas uma sequencia linear de postos.";
     p15.resposta = 'A';
     perguntas.push_back(p15);
+
+    pergunta p16;
+    p16.questao = "ALERTA: Firewall sob ataque massivo de pacotes desordenados. Precisamos indexar os logs de intrusao rapidamente.\nQual algoritmo tem o melhor desempenho medio (O(n log n)) para dados aleatorios?";
+    p16.opcaoA = "Bubble Sort";
+    p16.opcaoB = "Quick Sort";    // Resposta Correta
+    p16.opcaoC = "Insertion Sort";
+    p16.opcaoD = "Selection Sort";
+    p16.resposta = 'B';
+    // Dados bem bagunçados para o Quick Sort brilhar
+    p16.dadosTeste = { 45, 12, 89, 33, 7, 90, 21, 55 }; 
+    perguntas.push_back(p16);
+
+    // --- PERGUNTA 2: INSERTION SORT (Eficiência em quase ordenados) ---
+    pergunta p17;
+    p17.questao = "SISTEMA: Recuperamos uma lista de transacoes bancarias antiga. Ela esta quase toda ordenada, exceto por alguns erros.\nQual metodo e mais eficiente (O(n)) para corrigir essa lista especifica?";
+    p17.opcaoA = "Merge Sort";
+    p17.opcaoB = "Quick Sort";
+    p17.opcaoC = "Insertion Sort"; // Resposta Correta (Ótimo p/ quase ordenados)
+    p17.opcaoD = "Bubble Sort";
+    p17.resposta = 'C';
+    // Dados quase ordenados (apenas o 2 e 5 fora do lugar)
+    p17.dadosTeste = { 1, 3, 4, 6, 2, 8, 9, 5 }; 
+    perguntas.push_back(p17);
+
+    // --- PERGUNTA 3: MERGE SORT (Estabilidade e Grandes Dados) ---
+    pergunta p18;
+    p18.questao = "DATABASE: Precisamos fundir dois grandes arquivos de dados de sobreviventes sem perder a ordem relativa dos registros (Estabilidade).\nQual algoritmo garante O(n log n) no pior caso e mantem a estabilidade?";
+    p18.opcaoA = "Quick Sort";
+    p18.opcaoB = "Selection Sort";
+    p18.opcaoC = "Bubble Sort";
+    p18.opcaoD = "Merge Sort";     // Resposta Correta
+    p18.resposta = 'D';
+    // Dados duplicados para testar estabilidade (visualização mostra a mesclagem)
+    p18.dadosTeste = { 10, 5, 2, 5, 8, 10, 3, 1 }; 
+    perguntas.push_back(p18);
+
+    // --- PERGUNTA 4: SELECTION SORT (Memória Flash / Poucas Trocas) ---
+    pergunta p19;
+    p19.questao = "HARDWARE: O disco rigido esta danificado. A escrita e muito custosa, mas a leitura e barata.\nQual algoritmo minimiza o numero de trocas (escritas) na memoria?";
+    p19.opcaoA = "Selection Sort"; // Resposta Correta (Max N trocas)
+    p19.opcaoB = "Insertion Sort";
+    p19.opcaoC = "Merge Sort";
+    p19.opcaoD = "Quick Sort";
+    p19.resposta = 'A';
+    p19.dadosTeste = { 99, 88, 77, 66, 55 };
+    perguntas.push_back(p19);
+
+
+
 }

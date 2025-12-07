@@ -11,8 +11,10 @@
                 "${workspaceFolder}/main.cpp",
                 "${workspaceFolder}/systems/gerenciador_save.cpp",
                 "${workspaceFolder}/systems/gameplay.cpp",
+                "${workspaceFolder}/systems/ordenacao.cpp", 
                 "${workspaceFolder}/gameLore/banco_perguntas.cpp",
                 "${workspaceFolder}/gameLore/itens.cpp",
+                
                 "-o",
                 "${workspaceFolder}/jogo.exe"
             ],
