@@ -16,7 +16,19 @@ void animacaoSelection(std::vector<int> arr);
 void animacaoQuickSort(std::vector<int>& arr, int low, int high);
 void animacaoMergeSort(std::vector<int>& arr, int left, int right);
 
-// Auxiliar visual
+
+
+//heaps
+void animacaoHeapSort(std::vector<int>& arr);
+
+// busca binaria
+void animacaoBuscaBinaria(std::vector<int> arr);
+
+// algoritmos de menor custo
+void animacaoDijkstra();       
+void animacaoBellmanFord();    
+void animacaoFloydWarshall();
+
 void printArray(const std::vector<int>& arr, int destaque1 = -1, int destaque2 = -1);
 
 #endif

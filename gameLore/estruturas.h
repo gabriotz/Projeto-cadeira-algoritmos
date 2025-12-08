@@ -53,4 +53,8 @@ struct pergunta {
     vector<int> dadosTeste;
 };
 
+struct Aresta {
+    int origem, destino, peso;
+};
+
 #endif

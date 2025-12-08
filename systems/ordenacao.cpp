@@ -1,10 +1,12 @@
 #include "ordenacao.h"
+#include "../gameLore/estruturas.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <algorithm>
 #include <vector>
 #include <iomanip>
+#include <climits>
 
 using namespace std;
 
@@ -24,8 +26,7 @@ void printArray(const vector<int>& arr, int destaque1, int destaque2) {
     cout << "]"; 
     cout << flush; // Força a exibição imediata
     
-    // AQUI ESTÁ O SEGREDO: 1500ms = 1.5 segundos de pausa para você ver acontecer
-    this_thread::sleep_for(chrono::milliseconds(1500)); 
+    this_thread::sleep_for(chrono::milliseconds(500)); 
 }
 
 // 1. BUBBLE SORT
@@ -154,41 +155,318 @@ void animacaoMergeSort(vector<int>& arr, int left, int right) {
     }
 }
 
-// --- DISPATCHER ---
+void animacaoBuscaBinaria(vector<int> arr) {
+    if (arr.empty()) return;
+
+    // CONVENÇÃO: O último elemento do vetor é o ALVO da busca
+    int alvo = arr.back();
+    arr.pop_back();
+
+    // Busca Binária exige dados ordenados
+    sort(arr.begin(), arr.end());
+
+    cout << endl << ">>> INICIANDO BUSCA BINARIA (O(log n)) <<<" << endl;
+    cout << "Alvo: " << alvo << " | Dados Ordenados: ";
+    for(int x : arr) cout << x << " ";
+    cout << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int left = 0;
+    int right = arr.size() - 1;
+    bool encontrou = false;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        // Visualização do intervalo atual
+        cout << "\r   Busca entre indices [" << left << "] e [" << right << "]... Meio: " << arr[mid] << flush;
+        this_thread::sleep_for(chrono::milliseconds(1500));
+
+        if (arr[mid] == alvo) {
+            cout << "\n\n   >>> ENCONTRADO! O valor " << alvo << " esta no indice " << mid << "." << endl;
+            encontrou = true;
+            break;
+        }
+
+        if (arr[mid] < alvo) {
+            cout << " -> (Alvo eh maior, indo para direita)";
+            left = mid + 1;
+        } else {
+            cout << " -> (Alvo eh menor, indo para esquerda)";
+            right = mid - 1;
+        }
+        cout << endl;
+    }
+
+    if (!encontrou) {
+        cout << "\n   >>> Valor nao encontrado na base de dados." << endl;
+    }
+    cout << "------------------------------------------------\n" << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+}
+
+
+void heapify(vector<int>& arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    // Visualiza a raiz atual sendo verificada
+    cout << "\r   (Verificando no " << arr[i] << ")   "; 
+    
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        printArray(arr, i, largest); // Mostra quem vai trocar
+        swap(arr[i], arr[largest]);
+        printArray(arr, i, largest); // Mostra a troca feita
+        
+        // Recursivamente arruma a sub-árvore afetada
+        heapify(arr, n, largest);
+    }
+}
+
+void animacaoHeapSort(vector<int>& arr) {
+    cout << endl << ">>> INICIANDO HEAP SORT (Estrutura de Arvore/Heap) <<<" << endl;
+    cout << "Fase 1: Construindo o Max-Heap (Pai > Filhos)..." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int n = arr.size();
+
+    // Constrói o heap (rearranja o array)
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+
+    cout << endl << "Fase 2: Extraindo elementos da Arvore para ordenar..." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    // Extrai um por um do heap
+    for (int i = n - 1; i > 0; i--) {
+        printArray(arr, 0, i); // Move a raiz (maior) para o final
+        swap(arr[0], arr[i]);
+        printArray(arr, 0, i);
+        
+        // Chama heapify na heap reduzida
+        heapify(arr, i, 0);
+    }
+    cout << "\r[ "; for(int x : arr) cout << x << " "; cout << "] -> ORDENADO!" << endl << endl;
+}
+
+
+
+// 1. DIJKSTRA (Single Source Shortest Path)
+void animacaoDijkstra() {
+    cout << endl << ">>> INICIANDO ALGORITMO DE DIJKSTRA (Greedy) <<<" << endl;
+    cout << "Objetivo: Encontrar rota mais curta do No 0 para todos os outros." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    // Grafo Demo (5 nós)
+    int n = 5;
+    // Matriz de adjacência (-1 = sem conexão)
+    int grafo[5][5] = {
+        {0, 4, 2, -1, -1}, // 0 conecta em 1(4) e 2(2)
+        {-1, 0, 3, 2, 3},  // 1 conecta em 2(3), 3(2), 4(3)
+        {-1, 1, 0, 4, 5},  // 2 conecta em 1(1), 3(4), 4(5)
+        {-1, -1, -1, 0, -1},
+        {-1, -1, -1, 1, 0}
+    };
+    
+    vector<int> dist(n, 999); // 999 representa Infinito visualmente
+    vector<bool> visitado(n, false);
+    dist[0] = 0;
+
+    for (int i = 0; i < n; i++) {
+        // Encontrar o nó não visitado com menor distância
+        int u = -1;
+        for (int j = 0; j < n; j++) {
+            if (!visitado[j] && (u == -1 || dist[j] < dist[u]))
+                u = j;
+        }
+
+        if (dist[u] == 999) break;
+        visitado[u] = true;
+
+        cout << "\n[Analise] Visitando No " << u << " (Distancia atual: " << dist[u] << ")" << endl;
+        this_thread::sleep_for(chrono::milliseconds(800));
+
+        // Relaxar vizinhos
+        for (int v = 0; v < n; v++) {
+            if (grafo[u][v] != -1 && grafo[u][v] != 0) {
+                cout << "   -> Verificando vizinho " << v << " (Peso aresta: " << grafo[u][v] << ")... ";
+                if (dist[u] + grafo[u][v] < dist[v]) {
+                    dist[v] = dist[u] + grafo[u][v];
+                    cout << "ATUALIZADO para " << dist[v];
+                } else {
+                    cout << "Mantido (" << dist[v] << ")";
+                }
+                cout << endl;
+                this_thread::sleep_for(chrono::milliseconds(500));
+            }
+        }
+        
+        // Mostrar Estado Atual das Distâncias
+        cout << "   STATUS: [ ";
+        for(int d : dist) {
+            if(d==999) cout << "INF "; else cout << d << " ";
+        }
+        cout << "]" << endl;
+    }
+    cout << "\n>>> ROTA OTIMIZADA CALCULADA. <<<" << endl << endl;
+}
+
+// 2. BELLMAN-FORD (Detecta pesos negativos)
+void animacaoBellmanFord() {
+    cout << endl << ">>> INICIANDO BELLMAN-FORD (Pesos Negativos) <<<" << endl;
+    cout << "Objetivo: Relaxar arestas N-1 vezes para garantir estabilidade." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int V = 4;
+    vector<Aresta> arestas = {
+        {0, 1, 4}, {0, 2, 5}, 
+        {1, 2, -2}, // Peso negativo aqui! (Atalho hacker)
+        {2, 3, 3}
+    };
+    
+    vector<int> dist(V, 999);
+    dist[0] = 0;
+
+    // Relaxamento repetido
+    for (int i = 1; i <= V - 1; i++) {
+        cout << "\n--- Iteracao " << i << " de " << V-1 << " ---" << endl;
+        bool trocou = false;
+        for (auto& a : arestas) {
+            if (dist[a.origem] != 999 && dist[a.origem] + a.peso < dist[a.destino]) {
+                cout << "   Relaxando aresta " << a.origem << "->" << a.destino 
+                     << " (Peso " << a.peso << "): " 
+                     << dist[a.destino] << " -> " << dist[a.origem] + a.peso << endl;
+                dist[a.destino] = dist[a.origem] + a.peso;
+                trocou = true;
+                this_thread::sleep_for(chrono::milliseconds(600));
+            }
+        }
+        
+        cout << "   Distancias: [ ";
+        for(int d : dist) if(d==999) cout << "INF "; else cout << d << " ";
+        cout << "]" << endl;
+
+        if(!trocou) break; // Otimização visual
+    }
+    cout << "\n>>> REDE ESTABILIZADA. <<<" << endl << endl;
+}
+
+// 3. FLOYD-WARSHALL (Matriz All-Pairs)
+void animacaoFloydWarshall() {
+    cout << endl << ">>> INICIANDO FLOYD-WARSHALL (Mapeamento Global) <<<" << endl;
+    cout << "Objetivo: Matriz de distancias de TODOS para TODOS." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int INF = 99; // Visualmente melhor que numero grande
+    int dist[4][4] = {
+        {0,   3,   INF, 7},
+        {8,   0,   2,   INF},
+        {5,   INF, 0,   1},
+        {2,   INF, INF, 0}
+    };
+
+    int V = 4;
+    
+    // Mostra matriz inicial
+    cout << "Matriz Inicial:" << endl;
+    for(int i=0; i<V; i++) {
+        cout << "| ";
+        for(int j=0; j<V; j++) {
+            if(dist[i][j]==INF) cout << "INF "; else cout << setw(3) << dist[i][j] << " ";
+        }
+        cout << "|" << endl;
+    }
+
+    // Algoritmo O(N^3)
+    for (int k = 0; k < V; k++) {
+        cout << "\n--- Usando No intermediario [" << k << "] ---" << endl;
+        this_thread::sleep_for(chrono::milliseconds(500));
+        
+        bool mudou = false;
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                    cout << "   Atalho encontrado: " << i << "->" << j 
+                         << " via " << k << " (Novo custo: " << dist[i][j] << ")" << endl;
+                    mudou = true;
+                    this_thread::sleep_for(chrono::milliseconds(300));
+                }
+            }
+        }
+        if(!mudou) cout << "   (Nenhuma melhoria via no " << k << ")" << endl;
+    }
+    cout << "\n>>> TOPOLOGIA MAPEADA. <<<" << endl << endl;
+}
+
+
+
+
+
+
+// dispatcher
 void executarVisualizacao(string nomeAlgo, vector<int> dados) {
     string upper = nomeAlgo;
     transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
 
+    // 1. LISTA DE PERMITIDOS (Whitelist)
+    if (upper.find("DIJKSTRA") != string::npos) {
+        animacaoDijkstra();
+        return;
+    }
+    if (upper.find("BELLMAN") != string::npos) {
+        animacaoBellmanFord();
+        return;
+    }
+    if (upper.find("FLOYD") != string::npos) {
+        animacaoFloydWarshall();
+        return;
+    }
+    bool suportado = false;
+    if (upper.find("BUBBLE") != string::npos) suportado = true;
+    else if (upper.find("INSERTION") != string::npos) suportado = true;
+    else if (upper.find("SELECTION") != string::npos) suportado = true;
+    else if (upper.find("QUICK") != string::npos) suportado = true;
+    else if (upper.find("MERGE") != string::npos) suportado = true;
+    else if (upper.find("HEAP") != string::npos) suportado = true;
+    // Detecta "Binaria" ou "Binary"
+    else if (upper.find("BINARIA") != string::npos || upper.find("BINARY") != string::npos) suportado = true;
+
+    if (!suportado) return; 
+
+    // 2. EXECUTANDO A VISUALIZAÇÃO
     cout << "\n------------------------------------------------" << endl;
     cout << "SIMULACAO VISUAL (" << upper << "):" << endl;
-    cout << "Dataset Inicial: "; 
-    for(int n : dados) cout << n << " ";
-    cout << endl;
+    
+    // Mostra dataset apenas se NÃO for busca (pois busca trata os dados diferente)
+    if (upper.find("BINARIA") == string::npos && upper.find("BINARY") == string::npos) {
+        cout << "Dataset: "; for(int n : dados) cout << n << " "; cout << endl;
+    }
 
-    if (upper.find("BUBBLE") != string::npos) {
-        cout << "Algoritmo Lento O(n^2)" << endl;
-        animacaoBubble(dados);
-    } 
-    else if (upper.find("INSERTION") != string::npos) {
-        cout << "Algoritmo Adaptativo O(n)" << endl;
-        animacaoInsertion(dados);
-    }
-    else if (upper.find("SELECTION") != string::npos) {
-        cout << "Algoritmo O(n^2)" << endl;
-        animacaoSelection(dados);
-    }
+    if (upper.find("BUBBLE") != string::npos) animacaoBubble(dados);
+    else if (upper.find("INSERTION") != string::npos) animacaoInsertion(dados);
+    else if (upper.find("SELECTION") != string::npos) animacaoSelection(dados);
     else if (upper.find("QUICK") != string::npos) {
-        cout << "Algoritmo Rapido O(n log n)" << endl;
         animacaoQuickSort(dados, 0, dados.size() - 1);
-        // Quick Sort precisa imprimir o final manualmente pois é recursivo
         cout << "\r[ "; for(int n : dados) cout << n << " "; cout << "] -> ORDENADO!" << endl << endl;
     }
     else if (upper.find("MERGE") != string::npos) {
-        cout << "Algoritmo Estavel O(n log n)" << endl;
         animacaoMergeSort(dados, 0, dados.size() - 1);
         cout << "\r[ "; for(int n : dados) cout << n << " "; cout << "] -> ORDENADO!" << endl << endl;
     }
+    else if (upper.find("HEAP") != string::npos) {
+        animacaoHeapSort(dados);
+    }
+    else if (upper.find("BINARIA") != string::npos || upper.find("BINARY") != string::npos) {
+        animacaoBuscaBinaria(dados);
+    }
     
-    cout << "------------------------------------------------\n" << endl;
-    this_thread::sleep_for(chrono::seconds(2)); // Pausa final para leitura
+    this_thread::sleep_for(chrono::seconds(1));
 }
