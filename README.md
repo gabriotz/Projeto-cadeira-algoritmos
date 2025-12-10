@@ -1,125 +1,167 @@
-# Uma Aventura de Sobrevivência Lógica
+# 🧩 Uma Aventura de Sobrevivência Lógica
 
-# Descrição e Objetivos
+## 🧭 Descrição
 
-O nosso projeto é um jogo de **aventura e sobrevivência em terminal**, desenvolvido em **C++**, que desafia o jogador a tomar decisões críticas baseadas em **Estruturas de Dados e Algoritmos**.
+Este projeto é um **jogo de aventura e sobrevivência em terminal**, desenvolvido em **C++**, onde o jogador precisa tomar decisões usando **Estruturas de Dados e Algoritmos**.
 
-Em um cenário pós-apocalíptico, cada recurso é escasso e a eficiência é a chave para a sobrevivência.  
-O jogador deve responder a perguntas que simulam problemas logísticos e estratégicos, escolhendo a **estrutura de dados** ou o **algoritmo** mais adequado para cada situação.
+O cenário é um mundo pós-apocalíptico.  
+Recursos são escassos.  
+Eficiência é a chave para a sobrevivência.
 
-### Objetivo Principal
-
-Transformar o aprendizado de temas complexos e abstratos em uma **experiência dinâmica e interativa**.  
-Em vez de apenas memorizar conceitos, o jogador os **aplica em um contexto narrativo**, reforçando a importância e a utilidade prática de cada algoritmo.
+O jogador aplica algoritmos reais dentro da narrativa, entendendo sua importância prática.
 
 ---
 
-## Estrutura e Funcionalidades Implementadas
+## 🎯 Objetivo do Projeto
 
-O código foi arquitetado de forma **modular**, aplicando conceitos fundamentais de **C++** para garantir **eficiência e clareza**.
+Transformar o aprendizado de algoritmos em uma experiência:
 
----
+- **Dinâmica**  
+- **Narrativa**  
+- **Interativa**  
 
-### Tipos Compostos: `struct` e `union`
-
-Para modelar os dados do jogo, foram utilizados **tipos compostos** que agrupam informações relacionadas.
-
-#### `struct` (Registros)
-
-São a base da modelagem:
-
-- **`pergunta`**: Armazena a lógica de uma questão do quiz (enunciado, opções e resposta correta).  
-- **`item`**: Representa um item do inventário (nome, descrição e tipo).  
-- **`personagem`**: Consolida o estado completo do jogador (nome, vida e inventário).
-
-#### `union` (União)
-
-Dentro da `struct item`, há uma `union` para atributos específicos de cada tipo de item:
-
-- Um item pode **curar (`pontosCura`)** ou **ajudar no quiz (`metadeDasOpcoes`)**.  
-- O uso de `union` **otimiza o uso de memória**, alocando espaço suficiente apenas para o maior membro, compartilhado por todos.
+O jogador **vive** a aplicação de cada estrutura ou algoritmo, em vez de apenas memorizá-los.
 
 ---
 
-### Variáveis Globais e Locais
+## ⚙️ Como Compilar e Rodar
 
-#### Globais
-O jogo utiliza um conjunto de variáveis globais, como `perguntas` e `itensDoJogo`, que funcionam como um “banco de dados” central.  
-São declaradas em `main.cpp` e acessadas em outros arquivos com `extern`.
+Certifique-se de ter o compilador **g++** instalado.
 
-#### Variáveis Locais
-A maioria das variáveis é local, existindo apenas dentro do escopo de suas funções.  
-Isso garante **melhor controle de estado** e evita efeitos colaterais.
+### Compilação
+
+```bash
+g++ main.cpp systems/*.cpp gameLore/*.cpp -o jogo.exe
+```
+
+### Execução
+
+```bash
+./jogo.exe
+```
 
 ---
+
+
+## 1. 🔄 Algoritmos de Ordenação
+
+| Algoritmo | Complexidade Média | Pior Caso | Aplicação |
+|-----------|-------------------|-----------|-----------|
+| **Bubble Sort** | O(n²) | O(n²) | Representa métodos arcaicos e lentos de organização manual. |
+| **Insertion Sort** | O(n²) | O(n²) | Bom para listas pequenas/quase ordenadas; corrige falhas pontuais. |
+| **Selection Sort** | O(n²) | O(n²) | Demonstra a ineficiência de buscas repetidas. |
+| **Quick Sort** | O(n log n) | O(n²) | Indexação rápida de logs de intrusão. |
+| **Merge Sort** | O(n log n) | O(n log n) | Usado para fusão estável de arquivos de sobreviventes. |
+
+---
+
+## 2. 🌲 Árvores e Heaps
+
+### Heap Sort (Max-Heap)
+
+- **Complexidade:** O(n log n)
+- **Aplicação:** Sistema de triagem médica com prioridade
+- **Diferencial:** Paciente mais grave sempre é atendido primeiro
+
+O algoritmo constrói o heap e extrai a raiz repetidamente para ordenar os dados.
+
+---
+
+## 3. 🔍 Algoritmos de Busca
+
+### Busca Binária
+
+- **Requisito:** Vetor ordenado
+- **Complexidade:** O(log n)
+- **Aplicação:** Localizar rapidamente IDs em bancos de dados antigos
+
+No jogo, o intervalo analisado é exibido visualmente diminuindo.
+
+---
+
+## 4. 🌐 Grafos e Caminhos Mínimos
+
+Implementação com matriz de adjacência, simulando rotas e comunicação entre bases.
+
+### Dijkstra
+
+- **Objetivo:** Menor caminho a partir de um nó origem
+- **Complexidade:** O(V²)
+- **Aplicação:** Roteamento de dados (latência positiva)
+- **Visualização:** Expansão progressiva das distâncias
+
+### Bellman-Ford
+
+- **Objetivo:** Lida com pesos negativos
+- **Complexidade:** O(V × E)
+- **Aplicação:** Detectar anomalias (ciclos negativos) na rede elétrica
+
+### Floyd-Warshall
+
+- **Objetivo:** Menor caminho entre todos os pares
+- **Complexidade:** O(V³)
+- **Aplicação:** Mapa global de rotas estratégicas
+
+---
+
+## 5. 🔗 Árvores Geradoras Mínimas (MST)
+
+### Prim
+
+- **Complexidade:** O(V²)
+- **Estratégia:** Expande com a menor aresta conectada
+- **Aplicação:** Reconstrução da rede elétrica do bunker
+
+### Kruskal
+
+- **Complexidade:** O(E log E)
+- **Estratégia:** Ordena arestas + Union-Find para evitar ciclos
+- **Aplicação:** Unir rotas de fuga seguras espalhadas pelo mapa
+
+---
+
+## 🧩 Detalhes de Implementação em C++
+
+### Tipos Compostos
+
+- **`struct`** para perguntas, itens e personagens
+- **`union`** dentro dos itens para economizar memória
+  - Exemplo: `pontosCura` ou `metadeDasOpcoes`
+
+### Ponteiros e Alocação Dinâmica
+
+- Uso de `new` / `delete`
+- Inventário como `vector<item*>`
+- Destrutores personalizados para evitar memory leaks
 
 ### Modularização
 
-A complexidade do jogo é controlada por uma **forte modularização**.  
-Cada função tem uma **responsabilidade única**, tornando o código legível e de fácil alterações.
+#### Arquivos principais:
 
-#### Funções Principais
-
-- **`main()`** → Ponto de entrada; inicializa o jogo e o menu.  
-- **`jogar()`** → Executa o loop principal da partida.  
-- **`salvarProgresso()` / `carregarProgresso()`** → Manipulam os arquivos de save.
+- **`ordenacao.cpp`** — Visualização dos algoritmos
+- **`gameplay.cpp`** — Mecânicas do jogo
+- **`banco_perguntas.cpp`** — Dados e perguntas
+- **`estruturas.h`** — Definições globais
 
 ---
 
-### Ponteiros e Alocação Dinâmica de Memória
+## 👥 Grupo
 
-O jogo utiliza **alocação dinâmica** para gerenciar objetos que precisam existir além do escopo de uma função (como o personagem e os itens).
-
-- **`new`** → Aloca memória no *heap*.  
-  Exemplo: criação de um novo personagem ao iniciar o jogo.  
-- **`delete`** → Libera memória para evitar *memory leaks*.  
-  Exemplo: quando um item é consumido ou o jogo termina.
-
-#### Ponteiros
-
-O inventário do jogador é um `vector<item*>`, armazenando ponteiros para objetos `item`.  
-Em `carregarProgresso`, é usado um **ponteiro para ponteiro (`personagem**`)** para modificar o endereço original e atualizar a referência do jogador carregado do arquivo.
+- **Daniel Ramos**
+- **Felipe Leite**
+- **Gabriel Machado**
+- **Matheus Henrique**
+- **Matheus Stepple**
 
 ---
 
-### Entrada e Saída (E/S) de Arquivos
+## 📚 Informações Acadêmicas
 
-O sistema de **persistência de dados** permite salvar e carregar o progresso do jogador.
-
-#### Fluxo de Saída
-
-A função `salvarProgresso()` usa `ofstream` para criar/sobrescrever um arquivo `.dat`, gravando:
-
-- Vida do jogador  
-- Inventário  
-- Outros dados de progresso  
-
-#### Fluxo de Entrada
-
-A função `carregarProgresso()` utiliza `ifstream` para ler o arquivo e reconstruir o estado do personagem na memória,  
-permitindo continuar a aventura de onde parou.
+**Projeto acadêmico** – Cadeira de Algoritmos (C++)  
+**Professora:** Juscimara Avelino
 
 ---
 
-## Tecnologias Utilizadas
+## 📄 Licença
 
-- **Linguagem:** C++  
-- **Paradigma:** Programação estruturada e modular  
-- **Conceitos aplicados:**  
-  - `struct`, `union`;
-  - Ponteiros e alocação dinâmica de memória;
-  - E/S de arquivos;
-  - Modularização;
-  - Vetores de ponteiros (`vector<item*>`);
-
----
-
-## Grupo
-
-**Daniel Ramos**  
-**Felipe Leite**  
-**Gabriel Machado**  
-**Matheus Henrique**  
-**Matheus Stepple**  
-Projeto acadêmico da cadeira de **Algoritmos** em C++. 
-Professora: Juscimara Avelino.
+Projeto desenvolvido para fins educacionais.
