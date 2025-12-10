@@ -27,7 +27,9 @@ g++ main.cpp systems/*.cpp gameLore/*.cpp -o jogo.exe
 ```bash
 ./jogo.exe
 ```
+
 ---
+
 # Entrega 1
 
 
@@ -36,7 +38,9 @@ g++ main.cpp systems/*.cpp gameLore/*.cpp -o jogo.exe
 
 
 O código foi arquitetado de forma **modular**, aplicando conceitos fundamentais de **C++** para garantir **eficiência e clareza**.
+
 ---
+
 ### Tipos Compostos: `struct` e `union`
 
 Para modelar os dados do jogo, foram utilizados **tipos compostos** que agrupam informações relacionadas.
@@ -55,7 +59,9 @@ Dentro da `struct item`, há uma `union` para atributos específicos de cada tip
 
 - Um item pode **curar (`pontosCura`)** ou **ajudar no quiz (`metadeDasOpcoes`)**.  
 - O uso de `union` **otimiza o uso de memória**, alocando espaço suficiente apenas para o maior membro, compartilhado por todos.
+  
 ---
+
 ### Variáveis Globais e Locais
 
 #### Globais
@@ -65,7 +71,9 @@ São declaradas em `main.cpp` e acessadas em outros arquivos com `extern`.
 #### Variáveis Locais
 A maioria das variáveis é local, existindo apenas dentro do escopo de suas funções.  
 Isso garante **melhor controle de estado** e evita efeitos colaterais.
+
 ---
+
 ### Modularização
 
 A complexidade do jogo é controlada por uma **forte modularização**.  
@@ -77,13 +85,17 @@ Cada função tem uma **responsabilidade única**, tornando o código legível e
 - **`gameplay.cpp`** — Mecânicas do jogo
 - **`banco_perguntas.cpp`** — Dados e perguntas
 - **`estruturas.h`** — Definições globais
+  
 ---
+
 #### Funções Principais
 
 - **`main()`** → Ponto de entrada; inicializa o jogo e o menu.  
 - **`jogar()`** → Executa o loop principal da partida.  
 - **`salvarProgresso()` / `carregarProgresso()`** → Manipulam os arquivos de save.
+  
 ---
+
 ### Ponteiros e Alocação Dinâmica de Memória
 
 O jogo utiliza **alocação dinâmica** para gerenciar objetos que precisam existir além do escopo de uma função (como o personagem e os itens).
@@ -97,7 +109,9 @@ O jogo utiliza **alocação dinâmica** para gerenciar objetos que precisam exis
 
 O inventário do jogador é um `vector<item*>`, armazenando ponteiros para objetos `item`.  
 Em `carregarProgresso`, é usado um **ponteiro para ponteiro (`personagem**`)** para modificar o endereço original e atualizar a referência do jogador carregado do arquivo.
+
 ---
+
 ### Entrada e Saída (E/S) de Arquivos
 
 O sistema de **persistência de dados** permite salvar e carregar o progresso do jogador.
@@ -114,7 +128,9 @@ A função `salvarProgresso()` usa `ofstream` para criar/sobrescrever um arquivo
 
 A função `carregarProgresso()` utiliza `ifstream` para ler o arquivo e reconstruir o estado do personagem na memória,  
 permitindo continuar a aventura de onde parou.
+
 ---
+
 ## Tecnologias Utilizadas
 
 - **Linguagem:** C++  
@@ -125,8 +141,12 @@ permitindo continuar a aventura de onde parou.
   - E/S de arquivos;
   - Modularização;
   - Vetores de ponteiros (`vector<item*>`);
+    
 ---
+
 # Entrega 2
+
+Nesta etapa, o projeto foi expandido para transformar o jogo em um simulador visual de algoritmos, integrando ainda mais a teoria à prática. Foram implementadas animações no terminal para diversos algoritmos de ordenação, demonstrando visualmente a diferença de eficiência entre eles. Além disso, o sistema agora inclui algoritmos de grafos para cálculo de rotas e métodos de busca, suportados por uma base de perguntas ampliada que explora conceitos de complexidade assintótica e algorítimica.
 
 ## Algoritmos de Ordenação
 
@@ -145,7 +165,9 @@ permitindo continuar a aventura de onde parou.
 - **Diferencial:** Paciente mais grave sempre é atendido primeiro
 
 O algoritmo constrói o heap e extrai a raiz repetidamente para ordenar os dados.
+
 ---
+
 ## Algoritmos de buscas
 
 #### Busca Binária
@@ -155,7 +177,9 @@ O algoritmo constrói o heap e extrai a raiz repetidamente para ordenar os dados
 - **Aplicação:** Localizar rapidamente IDs em bancos de dados antigos
 
 No jogo, o intervalo analisado é exibido visualmente diminuindo.
+
 ---
+
 ## Grafos e caminhos mínimos
 
 Implementação com matriz de adjacência, simulando rotas e comunicação entre bases.
@@ -178,7 +202,9 @@ Implementação com matriz de adjacência, simulando rotas e comunicação entre
 - **Objetivo:** Menor caminho entre todos os pares
 - **Complexidade:** O(V³)
 - **Aplicação:** Mapa global de rotas estratégicas
+  
 ---
+
 ## Árvores Geradoras Mínimas (MST)
 
 #### Prim
@@ -193,7 +219,9 @@ Implementação com matriz de adjacência, simulando rotas e comunicação entre
 - **Complexidade:** O(E log E)
 - **Estratégia:** Ordena arestas + Union-Find para evitar ciclos
 - **Aplicação:** Unir rotas de fuga seguras espalhadas pelo mapa
+  
 ---
+
 ## Grupo
 
 **Daniel Ramos**  
@@ -201,5 +229,6 @@ Implementação com matriz de adjacência, simulando rotas e comunicação entre
 **Gabriel Machado**  
 **Matheus Henrique**  
 **Matheus Stepple**  
+\
 Projeto acadêmico da cadeira de **Algoritmos** em C++.\
 Professora: Juscimara Avelino.
