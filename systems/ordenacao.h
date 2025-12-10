@@ -29,6 +29,9 @@ void animacaoDijkstra();
 void animacaoBellmanFord();    
 void animacaoFloydWarshall();
 
+void animacaoPrim();
+void animacaoKruskal();
+
 void printArray(const std::vector<int>& arr, int destaque1 = -1, int destaque2 = -1);
 
 #endif

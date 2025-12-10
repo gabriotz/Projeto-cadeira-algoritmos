@@ -67,7 +67,6 @@ void carregarPerguntas(std::vector<pergunta>& perguntas) {
     // =================================================================================
     // PARTE 2: GRAFOS E CAMINHO MÍNIMO (Visualizações de Matriz/Grafo)
     // =================================================================================
-    // NOTA: Aqui removi opções como "Busca Binária" ou "Quick Sort" para evitar bugs visuais.
 
     // P6: DIJKSTRA (Caminho Mínimo Guloso)
     pergunta p6;
@@ -147,4 +146,25 @@ void carregarPerguntas(std::vector<pergunta>& perguntas) {
     pBubble.resposta = 'C';
     pBubble.dadosTeste = { 50, 40, 30, 20, 10 }; 
     perguntas.push_back(pBubble);
+
+    pergunta pPrim;
+    pPrim.questao = "INFRAESTRUTURA: Precisamos reconectar todas as estacoes de energia usando a menor quantidade de cabos possivel.\nQual algoritmo 'guloso' comeca de um no arbitrario e cresce a arvore adicionando sempre a conexao mais barata proxima?";
+    pPrim.opcaoA = "Algoritmo de Dijkstra";
+    pPrim.opcaoB = "Algoritmo de Prim";      // Resposta Correta
+    pPrim.opcaoC = "Algoritmo de Kruskal";
+    pPrim.opcaoD = "Busca em Largura";
+    pPrim.resposta = 'B';
+    pPrim.dadosTeste = { 1 }; // Ativa a animação
+    perguntas.push_back(pPrim);
+
+    // NOVA P10 (Exemplo): KRUSKAL
+    pergunta pKruskal;
+    pKruskal.questao = "LOGISTICA: Temos varios fragmentos de rotas seguras isoladas. Precisamos unir tudo ordenando as conexoes pelo menor custo, evitando rotas circulares (ciclos).\nQual algoritmo segue essa logica?";
+    pKruskal.opcaoA = "Algoritmo de Bellman-Ford";
+    pKruskal.opcaoB = "Algoritmo de Prim";
+    pKruskal.opcaoC = "Algoritmo de Kruskal";  // Resposta Correta
+    pKruskal.opcaoD = "Floyd-Warshall";
+    pKruskal.resposta = 'C';
+    pKruskal.dadosTeste = { 1 }; // Ativa a animação
+    perguntas.push_back(pKruskal);
 }

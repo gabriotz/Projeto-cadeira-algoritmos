@@ -57,4 +57,9 @@ struct Aresta {
     int origem, destino, peso;
 };
 
+struct Subconjunto {
+    int pai;
+    int rank;
+};
+
 #endif

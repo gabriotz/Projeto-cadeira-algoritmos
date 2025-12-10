@@ -32,7 +32,28 @@ bool fazerPergunta(personagem* jogador, bool modoAjuda) {
     cout << p.questao << endl;
 
     if (modoAjuda) {
-        // ... (código da função fazerPergunta como estava no main.cpp)
+        cout << "--- MODO ANALISE ATIVADO (50/50) ---" << endl;
+        
+        // 1. Identifica a resposta correta
+        char correta = toupper(p.resposta);
+        
+        // 2. Escolhe uma resposta errada aleatória para manter
+        vector<char> opcoesErradas;
+        if (correta != 'A') opcoesErradas.push_back('A');
+        if (correta != 'B') opcoesErradas.push_back('B');
+        if (correta != 'C') opcoesErradas.push_back('C');
+        if (correta != 'D') opcoesErradas.push_back('D');
+        
+        // Embaralha e pega a primeira errada
+        int idxAleatorio = rand() % opcoesErradas.size();
+        char erradaMantida = opcoesErradas[idxAleatorio];
+
+        // 3. Exibe apenas a correta e a errada escolhida (na ordem A, B, C, D)
+        if (correta == 'A' || erradaMantida == 'A') cout << "A) " << p.opcaoA << endl;
+        if (correta == 'B' || erradaMantida == 'B') cout << "B) " << p.opcaoB << endl;
+        if (correta == 'C' || erradaMantida == 'C') cout << "C) " << p.opcaoC << endl;
+        if (correta == 'D' || erradaMantida == 'D') cout << "D) " << p.opcaoD << endl;
+        
     } else {
         cout << "A) " << p.opcaoA << endl;
         cout << "B) " << p.opcaoB << endl;
@@ -41,11 +62,23 @@ bool fazerPergunta(personagem* jogador, bool modoAjuda) {
     }
 
     cout << "Sua resposta: ";
+    string entradaTemp; 
     char resposta;
-    cin >> resposta;
+
+    while (true) {
+        cin >> entradaTemp;
+        char opcao = toupper(entradaTemp[0]);
+        
+        if (entradaTemp.length() > 1 || (opcao < 'A' || opcao > 'D')) {
+            cout << "Entrada invalida! Por favor, digite APENAS A, B, C ou D: ";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        } else {
+            resposta = opcao;
+            break;
+        }
+    }
 
     // === INÍCIO DA INTEGRAÇÃO ===
-    // Se a pergunta tiver dados de teste, rodamos a visualização da escolha do jogador
     if (!p.dadosTeste.empty()) {
         string algoritmoEscolhido = "";
         char r = toupper(resposta);
@@ -56,10 +89,8 @@ bool fazerPergunta(personagem* jogador, bool modoAjuda) {
         else if (r == 'C') algoritmoEscolhido = p.opcaoC;
         else if (r == 'D') algoritmoEscolhido = p.opcaoD;
 
-        // Se ele escolheu algo válido, roda a animação
         if (!algoritmoEscolhido.empty()) {
-            // Chama a função que criamos no ordenacao.cpp
-            executarVisualizacao(algoritmoEscolhido, p.dadosTeste);
+           executarVisualizacao(algoritmoEscolhido, p.dadosTeste);
         }
     }
 
@@ -126,8 +157,8 @@ if (jogador->inventario.empty()) {
                 return;
             }
             cout << "Voce usou " << itemEscolhido->nome << ". A proxima pergunta tera duas opcoes removidas." << endl;
-            fazerPergunta(jogador, true); // Chama a pergunta em modo de ajuda
-            // Remove o item e libera a memória
+            fazerPergunta(jogador, true); 
+            
             delete itemEscolhido;
             jogador->inventario.erase(jogador->inventario.begin() + indice);
             break;

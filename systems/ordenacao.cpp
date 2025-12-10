@@ -407,6 +407,158 @@ void animacaoFloydWarshall() {
 }
 
 
+void animacaoPrim() {
+    cout << endl << ">>> INICIANDO ALGORITMO DE PRIM (MST) <<<" << endl;
+    cout << "Objetivo: Conectar todos os nos com o menor custo total." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int n = 5;
+    // Matriz de adjacência (Grafo não direcionado, simétrico)
+    // 999 = Sem conexão
+    int grafo[5][5] = {
+        {0, 2, 0, 6, 0},
+        {2, 0, 3, 8, 5},
+        {0, 3, 0, 0, 7},
+        {6, 8, 0, 0, 9},
+        {0, 5, 7, 9, 0}
+    };
+
+    int pai[5];      // Armazena a árvore
+    int chave[5];    // Valores mínimos para incluir o nó
+    bool mstSet[5];  // Nós já incluídos na MST
+
+    // Inicialização
+    for (int i = 0; i < n; i++) {
+        chave[i] = 999;
+        mstSet[i] = false;
+    }
+
+    // Começa pelo primeiro nó
+    chave[0] = 0;
+    pai[0] = -1;
+
+    for (int count = 0; count < n - 1; count++) {
+        // Escolhe a chave mínima dos vértices ainda não incluídos
+        int u = -1, min = 999;
+        for (int v = 0; v < n; v++)
+            if (!mstSet[v] && chave[v] < min)
+                min = chave[v], u = v;
+
+        mstSet[u] = true;
+        cout << "\n[Analise] No " << u << " adicionado a Arvore (Custo conexao: " << min << ")" << endl;
+        this_thread::sleep_for(chrono::milliseconds(800));
+
+        // Atualiza o valor da chave e o pai dos vértices adjacentes
+        for (int v = 0; v < n; v++) {
+            if (grafo[u][v] && !mstSet[v] && grafo[u][v] < chave[v]) {
+                cout << "   -> Melhor aresta encontrada para vizinho " << v 
+                     << ": Peso " << grafo[u][v] << " (Era " << chave[v] << ")" << endl;
+                pai[v] = u;
+                chave[v] = grafo[u][v];
+                this_thread::sleep_for(chrono::milliseconds(400));
+            }
+        }
+    }
+
+    // Exibe a árvore final
+    cout << "\n>>> ARVORE GERADORA MINIMA FORMADA: <<<" << endl;
+    int custoTotal = 0;
+    for (int i = 1; i < n; i++) {
+        cout << "Aresta: " << pai[i] << " - " << i << " \tPeso: " << grafo[i][pai[i]] << endl;
+        custoTotal += grafo[i][pai[i]];
+    }
+    cout << "Custo Total: " << custoTotal << endl << endl;
+}
+
+// 5. ALGORITMO DE KRUSKAL
+
+
+int find(Subconjunto sub[], int i) {
+    if (sub[i].pai != i)
+        sub[i].pai = find(sub, sub[i].pai);
+    return sub[i].pai;
+}
+
+void Union(Subconjunto sub[], int x, int y) {
+    int raizX = find(sub, x);
+    int raizY = find(sub, y);
+
+    if (sub[raizX].rank < sub[raizY].rank)
+        sub[raizX].pai = raizY;
+    else if (sub[raizX].rank > sub[raizY].rank)
+        sub[raizY].pai = raizX;
+    else {
+        sub[raizY].pai = raizX;
+        sub[raizX].rank++;
+    }
+}
+
+// Comparador para ordenar arestas
+bool compararArestas(Aresta a, Aresta b) {
+    return a.peso < b.peso;
+}
+
+void animacaoKruskal() {
+    cout << endl << ">>> INICIANDO ALGORITMO DE KRUSKAL (MST) <<<" << endl;
+    cout << "Objetivo: Selecionar as arestas mais leves sem formar ciclos." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int V = 4; // 4 Vértices
+    vector<Aresta> arestas = {
+        {0, 1, 10},
+        {0, 2, 6},
+        {0, 3, 5},
+        {1, 3, 15},
+        {2, 3, 4}
+    };
+
+    // 1. Ordenar arestas
+    cout << "1. Ordenando todas as arestas por peso..." << endl;
+    sort(arestas.begin(), arestas.end(), compararArestas);
+    for(auto& a : arestas) cout << "(" << a.origem << "-" << a.destino << ": " << a.peso << ") ";
+    cout << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    Subconjunto *subs = new Subconjunto[V];
+    for (int v = 0; v < V; ++v) {
+        subs[v].pai = v;
+        subs[v].rank = 0;
+    }
+
+    vector<Aresta> mst;
+    int i = 0; 
+    
+    // 2. Iterar arestas ordenadas
+    while (mst.size() < V - 1 && i < arestas.size()) {
+        Aresta proxima_aresta = arestas[i++];
+        
+        cout << "\n[Analise] Verificando aresta " << proxima_aresta.origem << "-" 
+             << proxima_aresta.destino << " (Peso: " << proxima_aresta.peso << ")... ";
+        
+        int x = find(subs, proxima_aresta.origem);
+        int y = find(subs, proxima_aresta.destino);
+
+        if (x != y) {
+            cout << "ACEITA (Nao forma ciclo)." << endl;
+            mst.push_back(proxima_aresta);
+            Union(subs, x, y);
+        } else {
+            cout << "REJEITADA (Formaria ciclo)." << endl;
+        }
+        this_thread::sleep_for(chrono::milliseconds(600));
+    }
+
+    cout << "\n>>> ARVORE GERADORA MINIMA FORMADA: <<<" << endl;
+    int custo = 0;
+    for (auto& a : mst) {
+        cout << a.origem << " -- " << a.destino << " == " << a.peso << endl;
+        custo += a.peso;
+    }
+    cout << "Custo Total: " << custo << endl << endl;
+    delete[] subs;
+}
+
+
 
 
 
@@ -427,6 +579,14 @@ void executarVisualizacao(string nomeAlgo, vector<int> dados) {
     }
     if (upper.find("FLOYD") != string::npos) {
         animacaoFloydWarshall();
+        return;
+    }
+    if (upper.find("PRIM") != string::npos) {
+        animacaoPrim();
+        return;
+    }
+    if (upper.find("KRUSKAL") != string::npos) {
+        animacaoKruskal();
         return;
     }
     bool suportado = false;
