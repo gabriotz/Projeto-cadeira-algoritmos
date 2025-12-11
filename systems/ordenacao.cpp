@@ -558,6 +558,86 @@ void animacaoKruskal() {
     delete[] subs;
 }
 
+void heapifyMin(vector<int>& arr, int n, int i) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    cout << "\r   (Min-Heap: Verificando menor entre pai " << arr[i] << " e filhos)   "; 
+    
+    // Procura o MENOR elemento (diferença principal para o Max-Heap)
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+
+    if (smallest != i) {
+        printArray(arr, i, smallest); 
+        swap(arr[i], arr[smallest]);
+        printArray(arr, i, smallest); 
+        
+        heapifyMin(arr, n, smallest);
+    }
+}
+
+void animacaoHeapSortMin(vector<int>& arr) {
+    cout << endl << ">>> INICIANDO MIN-HEAP SORT (Decrescente) <<<" << endl;
+    cout << "Objetivo: O MENOR elemento fica na raiz (Min-Heap)." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    int n = arr.size();
+
+    // 1. Constrói o Min-Heap (Bottom-Up)
+    cout << "Fase 1: Construindo Min-Heap (Pai < Filhos)..." << endl;
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapifyMin(arr, n, i);
+
+    // 2. Extrai elementos
+    cout << endl << "Fase 2: Extraindo (Menor vai pro final)..." << endl;
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr[0], arr[i]); // Move o menor (raiz) para o final "inativo"
+        printArray(arr, 0, i);
+        heapifyMin(arr, i, 0); // Reorganiza o restante
+    }
+    cout << "\r[ "; for(int x : arr) cout << x << " "; cout << "] -> ORDENADO (Decrescente)! " << endl << endl;
+}
+
+// --- 7. CONSTRUÇÃO TOP-DOWN (Inserção Item a Item) ---
+void siftUp(vector<int>& arr, int i) {
+    // Enquanto o nó atual for MAIOR que o pai, sobe (Max-Heap)
+    // Índice do Pai = (i - 1) / 2
+    while (i > 0 && arr[i] > arr[(i - 1) / 2]) {
+        int pai = (i - 1) / 2;
+        printArray(arr, i, pai); // Mostra comparação com o pai
+        swap(arr[i], arr[pai]);
+        printArray(arr, i, pai); // Mostra a troca
+        i = pai; // Continua subindo
+    }
+}
+
+void animacaoHeapTopDown(vector<int> dadosOriginais) {
+    cout << endl << ">>> CONSTRUCAO HEAP TOP-DOWN (Insercao) <<<" << endl;
+    cout << "Objetivo: Construir o Heap inserindo um elemento por vez." << endl;
+    this_thread::sleep_for(chrono::seconds(1));
+
+    vector<int> heapConstruido;
+    
+    for (int val : dadosOriginais) {
+        cout << "\n-> Inserindo elemento " << val << " no final..." << endl;
+        heapConstruido.push_back(val);
+        
+        // Visualiza a inserção antes de arrumar
+        printArray(heapConstruido, heapConstruido.size()-1); 
+        this_thread::sleep_for(chrono::milliseconds(500));
+
+        // Faz o elemento "subir" (Sift-Up / Swim) até a posição correta
+        siftUp(heapConstruido, heapConstruido.size() - 1);
+    }
+    
+    cout << "\n>>> HEAP COMPLETO (Top-Down): <<<" << endl;
+    cout << "[ "; for(int x : heapConstruido) cout << x << " "; cout << "]" << endl << endl;
+}
 
 
 
@@ -587,6 +667,14 @@ void executarVisualizacao(string nomeAlgo, vector<int> dados) {
     }
     if (upper.find("KRUSKAL") != string::npos) {
         animacaoKruskal();
+        return;
+    }
+    if (upper.find("MIN") != string::npos && upper.find("HEAP") != string::npos) {
+        animacaoHeapSortMin(dados);
+        return;
+    }
+    if (upper.find("TOP") != string::npos || upper.find("DOWN") != string::npos) {
+        animacaoHeapTopDown(dados);
         return;
     }
     bool suportado = false;

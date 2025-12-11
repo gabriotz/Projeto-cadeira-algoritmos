@@ -21,6 +21,9 @@ void animacaoMergeSort(std::vector<int>& arr, int left, int right);
 //heaps
 void animacaoHeapSort(std::vector<int>& arr);
 
+void animacaoHeapSortMin(std::vector<int>& arr); 
+void animacaoHeapTopDown(std::vector<int> arr);  
+
 // busca binaria
 void animacaoBuscaBinaria(std::vector<int> arr);
 

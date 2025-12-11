@@ -42,13 +42,13 @@ void carregarPerguntas(std::vector<pergunta>& perguntas) {
 
     // P4: HEAP SORT (Pior Caso Garantido)
     pergunta p4;
-    p4.questao = "SEGURANCA CRITICA: O Quick Sort e rapido, mas tem um pior caso de O(n^2) que pode travar o sistema.\nQual algoritmo de ordenacao baseado em arvores garante O(n log n) mesmo no pior caso absoluto?";
-    p4.opcaoA = "Heap Sort"; // Resposta Correta (Visualização de Árvore)
+    p4.questao = "SISTEMA DE FILA: Precisamos processar tarefas onde a de MAIOR prioridade (maior valor) deve ser sempre a primeira a sair.\nQual estrutura de 'Max-Heap' garante essa ordem e ordena o vetor de forma eficiente (O(n log n))?";
+    p4.opcaoA = "Heap Sort (Max-Heap)"; // Resposta Correta
     p4.opcaoB = "Quick Sort";
     p4.opcaoC = "Insertion Sort";
     p4.opcaoD = "Bubble Sort";
     p4.resposta = 'A';
-    p4.dadosTeste = { 100, 90, 80, 70, 60, 50 };
+    p4.dadosTeste = { 10, 20, 30, 40, 50, 60 }; 
     perguntas.push_back(p4);
 
     // P5: BUSCA BINÁRIA (Dados Ordenados)
@@ -167,4 +167,25 @@ void carregarPerguntas(std::vector<pergunta>& perguntas) {
     pKruskal.resposta = 'C';
     pKruskal.dadosTeste = { 1 }; // Ativa a animação
     perguntas.push_back(pKruskal);
+
+    pergunta pMinHeap;
+    pMinHeap.questao = "PRIORIDADE INVERSA: O sistema de reciclagem de lixo precisa processar primeiro os detritos MENORES para nao entupir o triturador.\nQual variante da estrutura Heap mantem sempre o menor elemento na raiz?";
+    pMinHeap.opcaoA = "Max-Heap";
+    pMinHeap.opcaoB = "Min-Heap"; // Resposta Correta -> Ativa animacaoHeapSortMin
+    pMinHeap.opcaoC = "Heap Binomial";
+    pMinHeap.opcaoD = "Pilha";
+    pMinHeap.resposta = 'B';
+    pMinHeap.dadosTeste = { 10, 50, 30, 20, 90, 5 }; 
+    perguntas.push_back(pMinHeap);
+
+    // Pergunta de TOP-DOWN
+    pergunta pTopDown;
+    pTopDown.questao = "FLUXO DE DADOS: Estamos recebendo pacotes de dados um por um via satelite e precisamos organiza-los em uma arvore de prioridade em tempo real.\nQual metodo de construcao de Heap e mais adequado para dados que chegam em fluxo (insercao item a item)?";
+    pTopDown.opcaoA = "Bottom-Up (Heapify)";
+    pTopDown.opcaoB = "Merge Sort";
+    pTopDown.opcaoC = "Top-Down (Sift-Up)"; // Resposta Correta -> Ativa animacaoHeapTopDown
+    pTopDown.opcaoD = "Quick Sort";
+    pTopDown.resposta = 'C';
+    pTopDown.dadosTeste = { 15, 10, 8, 25, 40, 30 }; 
+    perguntas.push_back(pTopDown);
 }
